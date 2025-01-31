@@ -1,8 +1,8 @@
 import { createBrowserRouter, Outlet } from 'react-router'
 import NavBar from './components/NavBar'
-import About from './components/about'
 import Home from './components/home'
 import Profile from './components/profile'
+import Recipes from './components/recipes'
 
 
 
@@ -12,8 +12,9 @@ export const router = createBrowserRouter([
       element: <><NavBar/><Outlet /></>,
       children : [
       {path: 'home', element: <Home/>},
-      {path: 'about', element: <About/>},
       {path: 'profile', element: <Profile/>},
+      {path: 'recipes', element: <Recipes/>},
+
 
     ]
         

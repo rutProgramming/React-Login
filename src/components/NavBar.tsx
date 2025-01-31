@@ -6,7 +6,7 @@ const NavBar = () => {
     return (<>
         <nav style={navStyle}>
         <Link to="home">Home</Link>|
-        <Link to="about">About</Link>|
+        <Link to="recipes">show recipes</Link>|
         <Link to="profile">profile</Link>
 
         </nav>

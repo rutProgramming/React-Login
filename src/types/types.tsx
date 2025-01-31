@@ -1,4 +1,5 @@
 export type User  ={
+  id:number
   firstName:string,
   lastName:string,
   address:string,
@@ -13,3 +14,11 @@ export type ActionReducer = {
 }
 export type ContextType = [Puser, React.Dispatch<ActionReducer>];
 
+export type RecipeType = {
+    id: number,
+    title: string,
+    description: string,
+    authorId: number,
+    ingredients: string[],
+    instructions: string
+}

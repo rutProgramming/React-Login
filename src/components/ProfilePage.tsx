@@ -3,9 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import { Context } from '../App';
 import { Button, Typography } from '@mui/material';
-import { RouterProvider } from 'react-router';
-import { router } from '../router';
-import {  UserIdContext } from './WelcomePage';
+// import {  UserIdContext } from './WelcomePage';
 import ProfileUpdateForm from './ProfileUpdateForm';
 import { StyleHeader } from './style';
 function stringToColor(string: string) {
@@ -41,7 +39,7 @@ function stringAvatar(name: string) {
 
 export default () => {
   const [user] = React.useContext(Context);
-  const userID = React.useContext<number>(UserIdContext);
+  // const userID = React.useContext<number>(UserIdContext);
   const [isUpdateModalOpen, setUpdateModalOpen] = React.useState(false);
 
   const handleOpenUpdateModal = () => setUpdateModalOpen(true);
@@ -53,7 +51,7 @@ export default () => {
         <div style={StyleHeader}>
 
           {!user.firstName ? (
-            <>hello, {userID}</>
+            <>hello, {user.id}</>
           ) : (
             <Stack direction="row" spacing={2}>
               <Avatar {...stringAvatar(user.firstName || 'Unknown User')} />
@@ -66,7 +64,6 @@ export default () => {
         {isUpdateModalOpen && (
           <ProfileUpdateForm onClose={handleCloseUpdateModal} />
         )}
-            <RouterProvider router={router} />
     </>
   );
 }

@@ -2,15 +2,18 @@ import { createContext, useReducer } from 'react'
 import './App.css'
 import HomePage from './components/WelcomePage'
 import { Puser ,ActionReducer,ContextType} from './types/types'
+import RecipesList from './store/recipesList'
+import { Provider } from 'react-redux'
+import store from './store/reduxStore'
+import { RouterProvider } from 'react-router'
+import { router } from './router'
 
 const reducer = (state: Puser, action: ActionReducer) => {
   switch (action.type) {
       case "LOGIN":
       case "SIGN_UP":
       case 'UPDATE':
-
         return { ...state, ...action.data }
-    
     default:
       return state
   }
@@ -24,9 +27,12 @@ function App() {
   return (
     <>
       <Context.Provider value={[user, userDispatch]}>
+      <Provider store={store}>
         <HomePage />
+        <RouterProvider router={router} />
+        </Provider>
       </Context.Provider>
-
+      
     </>
   )
 }

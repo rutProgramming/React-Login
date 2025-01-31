@@ -1,11 +1,10 @@
 import { FormEvent, useContext, useRef } from "react";
 import { Context } from "../App";
 import { Box, Button, Modal, TextField } from "@mui/material";
-import {  UserIdContext } from "./WelcomePage";
 import axios from "axios";
 import { styleForm } from "./style";
 
-export default ({onClose}: {   onClose: () => void }) => {
+export default ({onClose}: { onClose: () => void }) => {
     const [user, Dispatch] = useContext(Context);
     const firstNameRef = useRef<HTMLInputElement>(null);
     const lastNameRef = useRef<HTMLInputElement>(null);
@@ -14,7 +13,6 @@ export default ({onClose}: {   onClose: () => void }) => {
     const passwordRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
     const url = 'http://localhost:3000/api/user'
-    const userID = useContext<number>(UserIdContext);
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
@@ -27,22 +25,16 @@ export default ({onClose}: {   onClose: () => void }) => {
         };
         try {
             const res = await axios.put(
-                url,updatedUser,{ headers: { 'user-id': userID + '' } }
+                url,updatedUser,{ headers: { 'user-id': user.id + '' } }
             )           
             Dispatch({ type: 'UPDATE', data: res.data })
             onClose();
         }
-        catch (error) {
-            console.error(error);
-            alert('An error occurred while updating. Please try again.');
-        } finally {
-            firstNameRef.current!.value = ''
-            lastNameRef.current!.value = ''
-            emailRef.current!.value = ''
-            passwordRef.current!.value = ''
-            adressRef.current!.value = ''
-            phoneRef.current!.value = ''
-        }
+        catch (error:any) {
+            if (error.response?.status === 404) {
+                alert('User not found')
+            }
+        } 
     }
    
     return (
@@ -60,7 +52,5 @@ export default ({onClose}: {   onClose: () => void }) => {
                     </form>
                 </Box>
             </Modal>
-
-
         </>)
 }

@@ -1,4 +1,4 @@
-import { createContext, FormEvent, useContext, useRef, useState } from "react"
+import { FormEvent, useContext, useRef, useState } from "react"
 import {
     Button,
     Grid2 as Grid,
@@ -12,9 +12,6 @@ import axios from "axios";
 import ProfilePage from "./ProfilePage";
 import { styleForm, StyleHeader } from "./style";
 
-
-export const UserIdContext = createContext<number>(0);
-
 export default () => {
     const [isLogin, setIsLogin] = useState(false)
     const [open, setOpen] = useState(false)
@@ -22,7 +19,6 @@ export default () => {
     const passwordRef = useRef<HTMLInputElement>(null);
     const [user, Dispatch] = useContext(Context);
     const url = 'http://localhost:3000/api/user'
-    const [userId, setUserId] = useState<number>(0);
     const [state, setState] = useState<string>("");
 
     const handleSubmit = async (event: FormEvent, type: "SIGN_UP" | "LOGIN") => {
@@ -42,11 +38,14 @@ export default () => {
             let userCurrent: User;
             if (type === "LOGIN") {
                 userCurrent = res.data.user as User;
-                setUserId(res.data.user.id as number)
+                user.id = res.data.user.id as number
 
             }
             else {
+
+                user.id = res.data.userId as number
                 userCurrent = {
+                    id: user.id,
                     firstName: '',
                     lastName: '',
                     email: emailRef.current?.value || '',
@@ -54,19 +53,22 @@ export default () => {
                     password: passwordRef.current?.value || '',
                     phone: ''
                 };
-                setUserId(res.data.userId as number)
-
             }
             Dispatch({ type, data: userCurrent })
             setOpen(false); setIsLogin(true);
 
         }
-        catch (error) {
-            console.error(error);
-            alert('An error occurred. Please try again.');
-        } finally {
-            emailRef.current!.value = ''
-            passwordRef.current!.value = ''
+        catch (error: any) {
+            if (error.response?.status === 401) {
+                alert('Invalid credentials')
+            }
+            if (error.response?.status === 422) {
+                alert('User already exists')
+            }
+            if (error.response?.status === 400) {
+                alert('User already exists')
+            }
+
         }
     }
 
@@ -77,15 +79,12 @@ export default () => {
                 {!isLogin ? (
                     <>
                         <div style={StyleHeader}>
-
                             <Button color="primary" onClick={() => { setOpen(!open); setState("Login") }}>Login</Button>
                             <Button color="primary" onClick={() => { setOpen(!open); setState("Sign Up") }}>Sign Up</Button>
                         </div>
                     </>
                 ) : (
-                    <UserIdContext.Provider value={userId}>
-                        <ProfilePage />
-                    </UserIdContext.Provider>
+                    <ProfilePage />
                 )}
 
             </Grid>
