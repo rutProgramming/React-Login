@@ -1,16 +1,19 @@
 import { Link } from "react-router"
-import { navStyle } from "./style"
+import { linkStyle, navStyle } from "./style"
+import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/reduxStore";
 
 const NavBar = () => {
-    
-    return (<>
-        <nav style={navStyle}>
-        <Link to="home">Home</Link>|
-        <Link to="recipes">show recipes</Link>|
-        <Link to="profile">profile</Link>
+  const id = useSelector((state: RootState) => state.id);
+    return (
+        <Box component="nav" sx={navStyle}>
+          <Link to="Home" style={linkStyle}>Home</Link>|
+          <Link to="Recipes" style={linkStyle}>Show Recipes</Link>|
+          <Link to="profile" style={linkStyle}>Profile</Link>|
+          {id !== 0 && <Link to="/AddRecipe" style={linkStyle}>Add Recipe</Link>} 
+        </Box>
+      );
 
-        </nav>
-    </>)
 }
-
 export default NavBar

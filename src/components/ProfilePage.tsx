@@ -3,14 +3,11 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import { Context } from '../App';
 import { Button, Typography } from '@mui/material';
-// import {  UserIdContext } from './WelcomePage';
 import ProfileUpdateForm from './ProfileUpdateForm';
 import { StyleHeader } from './style';
 function stringToColor(string: string) {
   let hash = 0;
   let i;
-
-  /* eslint-disable no-bitwise */
   for (i = 0; i < string.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
@@ -21,8 +18,6 @@ function stringToColor(string: string) {
     const value = (hash >> (i * 8)) & 0xff;
     color += `00${value.toString(16)}`.slice(-2);
   }
-  /* eslint-enable no-bitwise */
-
   return color;
 }
 
@@ -32,14 +27,12 @@ function stringAvatar(name: string) {
     sx: {
       bgcolor: stringToColor(name),
     },
-
     children: `${name.split(' ')[0][0]}`,
   };
 }
 
 export default () => {
   const [user] = React.useContext(Context);
-  // const userID = React.useContext<number>(UserIdContext);
   const [isUpdateModalOpen, setUpdateModalOpen] = React.useState(false);
 
   const handleOpenUpdateModal = () => setUpdateModalOpen(true);
@@ -48,22 +41,23 @@ export default () => {
   return (
     <>
 
-        <div style={StyleHeader}>
+      <div style={StyleHeader}>
 
-          {!user.firstName ? (
-            <>hello, {user.id}</>
-          ) : (
-            <Stack direction="row" spacing={2}>
-              <Avatar {...stringAvatar(user.firstName || 'Unknown User')} />
-              <Typography variant="h6">{user.firstName || 'Unknown User'}</Typography>
+        {!user.firstName ? (
+          <>hello, {user.id}</>
+        ) : (
+          <Stack direction="row" spacing={2}>
+            <Avatar {...stringAvatar(user.firstName || 'Unknown User')} />
+            <Typography variant="h6">{user.firstName || 'Unknown User'}</Typography>
 
-            </Stack>
-          )}
-          <Button color="primary" onClick={handleOpenUpdateModal}>Update</Button>
-          </div>
-        {isUpdateModalOpen && (
-          <ProfileUpdateForm onClose={handleCloseUpdateModal} />
+          </Stack>
         )}
+        <Button sx={{ backgroundColor: "#d8b6a4", color: "#fff", '&:hover': { backgroundColor: "#c99a8f" } }}
+          onClick={handleOpenUpdateModal}>Update</Button>
+      </div>
+      {isUpdateModalOpen && (
+        <ProfileUpdateForm onClose={handleCloseUpdateModal} />
+      )}
     </>
   );
 }

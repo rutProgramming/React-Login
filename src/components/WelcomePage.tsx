@@ -1,16 +1,13 @@
 import { FormEvent, useContext, useRef, useState } from "react"
-import {
-    Button,
-    Grid2 as Grid,
-    Modal,
-    Box,
-    TextField
-} from "@mui/material";
+import { Button, Grid2 as Grid, Modal, Box, TextField} from "@mui/material";
 import { User } from "../types/types";
 import { Context } from "../App";
 import axios from "axios";
 import ProfilePage from "./ProfilePage";
-import { styleForm, StyleHeader } from "./style";
+import { buttonStyles, styleForm, StyleHeader } from "./style";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/reduxStore";
+import { setId } from "../store/IdSlice";
 
 export default () => {
     const [isLogin, setIsLogin] = useState(false)
@@ -18,8 +15,10 @@ export default () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [user, Dispatch] = useContext(Context);
-    const url = 'http://localhost:3000/api/user'
     const [state, setState] = useState<string>("");
+    const dispatch = useDispatch();
+    const url = useSelector((state: RootState) => state.url.value);
+    const id = useSelector((state: RootState) => state.id);
 
     const handleSubmit = async (event: FormEvent, type: "SIGN_UP" | "LOGIN") => {
         event.preventDefault();
@@ -38,14 +37,14 @@ export default () => {
             let userCurrent: User;
             if (type === "LOGIN") {
                 userCurrent = res.data.user as User;
-                user.id = res.data.user.id as number
+                dispatch(setId(res.data.user.id as number));
+
 
             }
             else {
-
-                user.id = res.data.userId as number
+                 dispatch(setId(res.data.userId as number));
                 userCurrent = {
-                    id: user.id,
+                    id: id,
                     firstName: '',
                     lastName: '',
                     email: emailRef.current?.value || '',
@@ -79,8 +78,10 @@ export default () => {
                 {!isLogin ? (
                     <>
                         <div style={StyleHeader}>
-                            <Button color="primary" onClick={() => { setOpen(!open); setState("Login") }}>Login</Button>
-                            <Button color="primary" onClick={() => { setOpen(!open); setState("Sign Up") }}>Sign Up</Button>
+                            <Button  sx={buttonStyles}  
+                             onClick={() => { setOpen(!open); setState("Login") }}>Login</Button>
+                            <Button   sx={buttonStyles}  
+                             onClick={() => { setOpen(!open); setState("Sign Up") }}>Sign Up</Button>
                         </div>
                     </>
                 ) : (
@@ -89,11 +90,11 @@ export default () => {
 
             </Grid>
             <Modal open={open} onClose={() => { setOpen(false); }}>
-                <Box sx={styleForm}>
+                <Box sx={styleForm} borderColor={"#c99a8f"}>
                     <form onSubmit={(event) => handleSubmit(event, state == "Sign Up" ? "SIGN_UP" : "LOGIN")}>
                         <TextField label="email" inputRef={emailRef} />
                         <TextField label="password" inputRef={passwordRef} />
-                        <Button type="submit">{state === "Sign Up" ? "Sign Up" : "Login"}</Button>
+                        <Button type="submit" sx={{color: "#a9643b"}}>{state === "Sign Up" ? "Sign Up" : "Login"}</Button>
                     </form>
                 </Box>
             </Modal>

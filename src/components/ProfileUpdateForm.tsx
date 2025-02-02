@@ -1,8 +1,10 @@
 import { FormEvent, useContext, useRef } from "react";
 import { Context } from "../App";
-import { Box, Button, Modal, TextField } from "@mui/material";
+import { Box, Button, colors, Modal, TextField } from "@mui/material";
 import axios from "axios";
 import { styleForm } from "./style";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/reduxStore";
 
 export default ({onClose}: { onClose: () => void }) => {
     const [user, Dispatch] = useContext(Context);
@@ -12,7 +14,8 @@ export default ({onClose}: { onClose: () => void }) => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
-    const url = 'http://localhost:3000/api/user'
+    // const url = 'http://localhost:3000/api/user'
+    const url = useSelector((state: RootState) => state.url.value);
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
@@ -48,7 +51,7 @@ export default ({onClose}: { onClose: () => void }) => {
                         <TextField label='adress' inputRef={adressRef} defaultValue={user.address}/>
                         <TextField label='password' inputRef={passwordRef} defaultValue={user.password} />
                         <TextField label='phone' inputRef={phoneRef} defaultValue={user.phone}/>
-                        <Button type="submit">save changes</Button>
+                        <Button type="submit" sx={{color: "#a9643b"}}>save changes</Button>
                     </form>
                 </Box>
             </Modal>
