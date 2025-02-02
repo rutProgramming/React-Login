@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RecipeType } from "../types/types";
-import { useContext } from "react";
-import { Context } from "../App";
 
 export const fetchRecipesGet = createAsyncThunk('recipes/fetchGet', async (_, thunkAPI) => {
 
@@ -14,20 +12,18 @@ export const fetchRecipesGet = createAsyncThunk('recipes/fetchGet', async (_, th
         return thunkAPI.rejectWithValue(error);
     }
 });
-
-export const fetchRecipesAdd = createAsyncThunk('recipes/fetchAdd', async (recipe:RecipeType, thunkAPI) => {
-    const [user] = useContext(Context);
-    debugger
+export const fetchRecipesAdd = createAsyncThunk('recipes/fetchAdd', async ({ recipe, id }: { recipe: Partial<RecipeType>; id: number}, thunkAPI) => {
     try {
-        const response = await axios.post(`http://localhost:3000/api/recipes`,
-        recipe,{ headers: { 'user-id': user.id + '' } }
-        );
-        return response.data.recipe; 
+      const response = await axios.post(`http://localhost:3000/api/recipes`, recipe, {
+        headers: { 'user-id': id.toString() + '', "Content-Type": "application/json" },
+      });
+      console.log('Response received:', response);
+      return response.data.recipe;
+    } catch (error: any) {
+      console.error('Error occurred:', error);
+      return thunkAPI.rejectWithValue(error);
     }
-    catch (error: any) {
-        return thunkAPI.rejectWithValue(error);
-    }
-});
+  });
 const recipesSlice = createSlice({
     name: 'recipes',
     initialState: { 

@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "./reduxStore";
+import { AppDispatch, RootState } from "../store/reduxStore";
 import { useEffect, useState } from "react";
-import { fetchRecipesGet } from "./recipesStore";
+import { fetchRecipesGet } from "../store/recipesStore";
 import { RecipeType } from "../types/types";
 import { Card, CardContent, Typography, Button, Container, Grid2 as Grid } from "@mui/material";
-import { buttonStyles } from "../components/style";
+import { backgroundStyle, buttonStyles } from "./style";
 import { Navigate } from "react-router";
 
 export default function RecipeViewer() {
@@ -31,7 +31,7 @@ export default function RecipeViewer() {
                     recipes.map((recipe: RecipeType) => (
                         <Card 
                             key={recipe.id} 
-                            sx={{ mb: 2, cursor: "pointer", transition: "0.3s", "&:hover": { boxShadow: 6 } }}
+                            sx={{ mb: 2,...backgroundStyle, transition: "0.3s", "&:hover": { boxShadow: 6 } }}
                             onClick={() => setSelectedRecipeId(recipe.id)}
                         >
                             <CardContent>

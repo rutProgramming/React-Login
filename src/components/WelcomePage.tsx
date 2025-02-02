@@ -38,11 +38,9 @@ export default () => {
             if (type === "LOGIN") {
                 userCurrent = res.data.user as User;
                 dispatch(setId(res.data.user.id as number));
-
-
             }
             else {
-                 dispatch(setId(res.data.userId as number));
+                dispatch(setId(res.data.userId as number));
                 userCurrent = {
                     id: id,
                     firstName: '',
@@ -74,7 +72,6 @@ export default () => {
     return (
         <>
             <Grid display={"flex"} alignItems={"center"} justifyContent={"flex-center"} alignContent={"flex-start"} >
-
                 {!isLogin ? (
                     <>
                         <div style={StyleHeader}>
@@ -90,7 +87,7 @@ export default () => {
 
             </Grid>
             <Modal open={open} onClose={() => { setOpen(false); }}>
-                <Box sx={styleForm} borderColor={"#c99a8f"}>
+                <Box sx={styleForm}>
                     <form onSubmit={(event) => handleSubmit(event, state == "Sign Up" ? "SIGN_UP" : "LOGIN")}>
                         <TextField label="email" inputRef={emailRef} />
                         <TextField label="password" inputRef={passwordRef} />

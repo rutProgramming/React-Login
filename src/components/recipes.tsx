@@ -1,6 +1,6 @@
 
 import { Outlet } from "react-router"
-import RecipesList from "../store/recipesList"
+import RecipesList from "./recipesList"
 import { centerStyle } from "./style"
 
 const Recipes=()=>{

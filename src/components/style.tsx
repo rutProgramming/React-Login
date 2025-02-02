@@ -8,13 +8,17 @@ export const centerStyle: React.CSSProperties = {
   width: '100%',
   textAlign: 'center',
 };
+export const backgroundStyle = {
+  backgroundColor: "rgba(255, 255, 255, 0.6)", 
+  backdropFilter: "blur(10px)"
+}
 export const styleForm= {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'rgb(234, 228, 224)',
+    ...backgroundStyle,
     border: '2px solid #d8b6a4',
     boxShadow: 24,
     p: 4,
@@ -52,3 +56,4 @@ export const navStyle:CSSProperties = {
         color: "#fff",
         '&:hover': { backgroundColor: "#c99a8f" }
     };
+    

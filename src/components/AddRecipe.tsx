@@ -1,13 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
-import { RecipeType } from "../types/types";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/reduxStore";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/reduxStore";
 import { fetchRecipesAdd } from "../store/recipesStore";
-import { Button } from "@mui/material";
+import { Button, Card, CardContent, Grid2 as Grid, TextField, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
-import { buttonStyles } from "../components/style";
+import { backgroundStyle, buttonStyles } from "../components/style";
 
 const Schema = Yup.object({
   title: Yup.string().required("Title is required"),
@@ -20,7 +19,8 @@ const Schema = Yup.object({
 
 const AddRecipe = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [ingredients, setIngredients] = useState<string[]>([""]); 
+  const id = useSelector((state: RootState) => state.id);
+  const [ingredients, setIngredients] = useState<string[]>(['']);
   const {
     formState: { errors },
     register,
@@ -46,75 +46,56 @@ const AddRecipe = () => {
     updatedIngredients[index] = value;
     setIngredients(updatedIngredients);
   };
-
-  const onSubmit = (data: Partial<RecipeType>) => {
-    const recipe: RecipeType = {
-    id: 0,
-    title: data.title||"",
-    description: data.description||"",
-    authorId:   0,
-    ingredients:    data.ingredients || [],
-    instructions:   data.instructions||""
-    }
-    dispatch(fetchRecipesAdd(recipe));
+  const onSubmit: SubmitHandler<{ ingredients?: string[]; title: string; description: string; instructions: string; }> = async (data) => {
+    const requestBody = {
+      title: data.title,
+      description: data.description,
+      instructions: data.instructions,
+      ingredients: data.ingredients,
+    };
+    dispatch(fetchRecipesAdd({ recipe: requestBody, id: id }));
     reset();
-    setIngredients([""]); 
+    setIngredients(['']);
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>Title:
-          <input {...register("title")} />
-        </label>
-        {errors.title && <div>{errors.title.message}</div>}
-        <br />
-        <label>Description:
-          <input {...register("description")} />
-        </label>
-        {errors.description && <div>{errors.description.message}</div>}
-        <br />
-
-        <label>Ingredients:</label>
-        {ingredients.map((ingredient, index) => (
-          <div key={index}>
-            <input
-              value={ingredient}
-              onChange={(e) => handleIngredientChange(index, e.target.value)}
-            />
-            <Button
-              variant="contained"
-              sx={{ ...buttonStyles, cursor: "pointer", ml: 1 }}
-              onClick={() => removeIngredient(index)}
-            >
-              Remove Ingredient
-            </Button>
-          </div>
-        ))}
-        <Button
-          variant="contained"
-          sx={{ ...buttonStyles, cursor: "pointer", mt: 2 }}
-          onClick={addIngredient}
-        >
-          Add Ingredient
-        </Button>
-        {errors.ingredients && <div>{errors.ingredients.message}</div>}
-        <br />
-
-        <label>Instructions:
-          <input {...register("instructions")} />
-        </label>
-        {errors.instructions && <div>{errors.instructions.message}</div>}
-        
-        <Button
-          variant="contained"
-          sx={{ ...buttonStyles, cursor: "pointer", mt: 2 }}
-          type="submit"
-        >
-          Add recipe
-        </Button>
-      </form>
-    </>
+    <Card sx={{ maxWidth: 500, mx: "auto", mt: 8, p: 2, boxShadow: 3, ...backgroundStyle}}>
+      <CardContent sx={{ maxHeight: "60vh", overflowY: "auto" }}>
+        <Typography variant="h5" textAlign="center" gutterBottom>
+          Add a New Recipe 🍽️
+        </Typography>
+        <form onSubmit={handleSubmit(onSubmit)} >
+          <Grid container spacing={2} >
+            <Grid size={{ xs: 6, md: 8 }}>
+              <TextField fullWidth label="Title" {...register("title")} error={!!errors.title} helperText={errors.title?.message} />
+            </Grid>
+            <Grid size={{ xs: 6, md: 8 }}>
+              <TextField fullWidth label="Description" multiline rows={3} {...register("description")} error={!!errors.description} helperText={errors.description?.message} />
+            </Grid>
+            <Grid size={{ xs: 8, md: 12 }}>
+              <Typography variant="subtitle1">Ingredients:</Typography>
+              {ingredients.map((ingredient, index) => (
+                <Grid container spacing={1} alignItems="center" key={index} sx={{ mt: 1 }}>
+                  <Grid size={{ xs: 6, md: 8 }}>
+                    <TextField fullWidth value={ingredient} onChange={(e) => handleIngredientChange(index, e.target.value)} />
+                  </Grid>
+                  <Grid size={{ xs: 2, md: 4 }}>
+                    <Button variant="contained" sx={{ mt: 1, ...buttonStyles }} onClick={() => removeIngredient(index)}>Remove</Button>
+                  </Grid>
+                </Grid>
+              ))}
+              <Button variant="contained" sx={{ mt: 1, ...buttonStyles }} onClick={addIngredient}>+ Add Ingredient</Button>
+            </Grid>
+            <Grid size={{ xs: 8, md: 12 }}>
+              <TextField fullWidth label="Instructions" multiline rows={4} {...register("instructions")} error={!!errors.instructions} helperText={errors.instructions?.message} />
+            </Grid>
+            <Grid size={{ xs: 8, md: 12 }} textAlign="center">
+              <Button variant="contained" sx={buttonStyles} type="submit">Add Recipe</Button>
+            </Grid>
+          </Grid>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 export default AddRecipe;

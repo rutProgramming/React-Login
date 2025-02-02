@@ -1,32 +1,32 @@
 import { useContext } from "react";
 import { Context } from "../App";
 import { Box, Card, CardContent, Typography } from "@mui/material";
+import { backgroundStyle } from "./style";
 
 
-export default()=>{
-     const [user] = useContext(Context);
-     return (<>
-    <Box 
-      display="flex" 
-      justifyContent="center" 
-      alignItems="center" 
+export default () => {
+  const [user] = useContext(Context);
+  return (<>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
       minHeight="100vh"
-    
+
     >
-      <Card 
-        sx={{ 
-          borderRadius: 3, 
+      <Card
+        sx={{
+          borderRadius: 3,
           textAlign: "center",
           padding: 2,
-        backgroundColor: "rgba(255, 255, 255, 0.6)", 
-            backdropFilter: "blur(10px)"
+          ...backgroundStyle
         }}
       >
         <CardContent>
           <Typography variant="h5" fontWeight="bold" color="primary" gutterBottom>
             {user.firstName ? `${user.firstName} ${user.lastName}` : "User Details"}
           </Typography>
-          
+
           <Typography variant="body1" color="text.secondary">
             📍 {user.address || "No Address Provided"}
           </Typography>
@@ -39,5 +39,5 @@ export default()=>{
         </CardContent>
       </Card>
     </Box>
-    </>)
+  </>)
 }

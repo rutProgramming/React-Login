@@ -2,7 +2,7 @@ import { Button, Card, CardContent, Typography } from "@mui/material"
 import { useSelector } from "react-redux";
 import { RootState } from "../store/reduxStore";
 import { useParams } from "react-router";
-import { buttonStyles } from "./style";
+import { backgroundStyle, buttonStyles } from "./style";
 import { useState } from "react";
 
 const ShowRecipe = () => {
@@ -17,8 +17,7 @@ const ShowRecipe = () => {
                     mb: 4, 
                     borderRadius: 2, 
                     boxShadow: 3, 
-                    backgroundColor: "rgba(255, 255, 255, 0.6)", 
-                    backdropFilter: "blur(10px)", 
+                    ...backgroundStyle, 
                     padding: 2,
                     margin:20
                 }}>
