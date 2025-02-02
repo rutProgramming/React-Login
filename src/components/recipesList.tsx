@@ -3,7 +3,7 @@ import { AppDispatch, RootState } from "../store/reduxStore";
 import { useEffect, useState } from "react";
 import { fetchRecipesGet } from "../store/recipesStore";
 import { RecipeType } from "../types/types";
-import { Card, CardContent, Typography, Button, Container, Grid2 as Grid } from "@mui/material";
+import { Card, CardContent, Typography, Button, Container, Grid2 as Grid, List, ListItem } from "@mui/material";
 import { backgroundStyle, buttonStyles } from "./style";
 import { Navigate } from "react-router";
 
@@ -17,6 +17,20 @@ export default function RecipeViewer() {
     }, [dispatch]);
 
     return (
+<List
+    sx={{
+        width: "100%",
+        maxWidth: 600,
+        position: "relative",
+        overflowY: "auto", 
+        maxHeight: 600,
+        "& ul": { padding: 0 },
+        scrollbarWidth: "none", 
+        "&::-webkit-scrollbar": { display: "none" }, 
+    }}
+    subheader={<li />}>         
+      {selectedRecipeId && <Navigate to={`./ShowRecipe/${selectedRecipeId}`} />}
+
         <Container sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 ,margin:10}}>
 
             <Grid >
@@ -50,7 +64,7 @@ export default function RecipeViewer() {
                 )}
             </Grid>
 
-            {selectedRecipeId && <Navigate to={`./ShowRecipe/${selectedRecipeId}`} />}
         </Container>
+        </List>
     );
 }

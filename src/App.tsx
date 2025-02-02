@@ -37,7 +37,6 @@ function App() {
            zIndex: 0, 
        }}
      >
-      
       <Context.Provider value={[user, userDispatch]}>
       <Provider store={store}>
         <RouterProvider router={router} ></RouterProvider>

@@ -4,10 +4,11 @@ import RecipesList from "./recipesList"
 import { centerStyle } from "./style"
 
 const Recipes=()=>{
-    return (
+    return (<>
     <div style={centerStyle}>
+        <Outlet/>
        <RecipesList/>
-       <Outlet/>
-    </div>)
+    </div>
+   </> )
 }
 export default Recipes
