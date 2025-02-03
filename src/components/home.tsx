@@ -10,7 +10,7 @@ const Home = () => {
                 alignItems="center"
                 style={{ minHeight: "100vh", textAlign: "center" }}
                 sx={{
-                    color: "#a9643b", 
+                    color: "#c99a8f", 
                 }}
             >
                 <Typography variant="h2" fontWeight="bold" gutterBottom>
