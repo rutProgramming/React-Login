@@ -7,9 +7,10 @@ import ShowRecipe from './components/ShowRecipe'
 import AddRecipe from './components/AddRecipe'
 import { useSelector } from 'react-redux'
 import { RootState } from './store/reduxStore'
+import { ReactElement } from 'react'
 
 
-const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
+const ProtectedRoute = ({ element }: { element: ReactElement }) => {
   const id = useSelector((state: RootState) => state.id);
   return id !== 0 ? element : null;
 };

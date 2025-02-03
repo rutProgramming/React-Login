@@ -16,7 +16,6 @@ const Schema = Yup.object({
     .min(1, "At least one ingredient is required"),
   instructions: Yup.string().required("Instructions is required").max(500, "Max length is 100"),
 }).required();
-
 const AddRecipe = () => {
   const dispatch = useDispatch<AppDispatch>();
   const id = useSelector((state: RootState) => state.id);
@@ -28,19 +27,15 @@ const AddRecipe = () => {
     reset,
     setValue,
   } = useForm({ resolver: yupResolver(Schema) });
-
   useEffect(() => {
     setValue("ingredients", ingredients);
   }, [ingredients, setValue]);
-
   const addIngredient = () => {
     setIngredients([...ingredients, ""]);
   };
-
   const removeIngredient = (index: number) => {
     setIngredients(ingredients.filter((_, i) => i !== index));
   };
-
   const handleIngredientChange = (index: number, value: string) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients[index] = value;
@@ -57,7 +52,6 @@ const AddRecipe = () => {
     reset();
     setIngredients(['']);
   };
-
   return (
     <Card sx={{ maxWidth: 500, mx: "auto", mt: 8, p: 2, boxShadow: 3, ...backgroundStyle}}>
       <CardContent sx={{ maxHeight: "60vh", overflowY: "auto" }}>
