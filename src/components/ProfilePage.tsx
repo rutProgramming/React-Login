@@ -40,7 +40,6 @@ export default () => {
 
   return (
     <>
-
       <div style={StyleHeader}>
 
         {!user.firstName ? (
