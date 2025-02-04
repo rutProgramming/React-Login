@@ -3,7 +3,7 @@ import { AppDispatch, RootState } from "../store/reduxStore";
 import { useEffect, useState } from "react";
 import { fetchRecipesGet } from "../store/recipesStore";
 import { RecipeType } from "../types/types";
-import { Card, CardContent, Typography, Button, Container, Grid2 as Grid, List, ListItem } from "@mui/material";
+import { Card, CardContent, Typography, Button, Container, Grid2 as Grid, List } from "@mui/material";
 import { backgroundStyle, buttonStyles } from "./style";
 import { Navigate } from "react-router";
 
@@ -20,7 +20,6 @@ export default function RecipeViewer() {
 <List
     sx={{
         width: "100%",
-        maxWidth: 600,
         position: "relative",
         overflowY: "auto", 
         maxHeight: 600,
@@ -31,14 +30,12 @@ export default function RecipeViewer() {
     subheader={<li />}>         
       {selectedRecipeId && <Navigate to={`./ShowRecipe/${selectedRecipeId}`} />}
 
-        <Container sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 ,margin:10}}>
+        <Container sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
 
             <Grid >
-                <Typography variant="h4" align="center" gutterBottom>
-                    Recipe List
-                </Typography>
-                {recipes.length === 0 ? (
-                    <Typography variant="h5" align="center">
+                
+                {recipes.length == 0 ? (
+                    <Typography variant="h5" align="center" sx={{color: "#b07d66", fontWeight: "bold"  }}>
                         No recipes available.
                     </Typography>
                 ) : (
@@ -49,7 +46,7 @@ export default function RecipeViewer() {
                             onClick={() => setSelectedRecipeId(recipe.id)}
                         >
                             <CardContent>
-                                <Typography variant="h6">{recipe.title}</Typography>
+                                <Typography variant="h6" sx={{color:"#d8b6a4",fontWeight:"bold"}}>{recipe.title}</Typography>
                                 <Button 
                                     variant="contained" 
                                     fullWidth 

@@ -23,7 +23,7 @@ export default () => {
         }}
       >
         <CardContent>
-          <Typography variant="h5" fontWeight="bold" color="primary" gutterBottom>
+          <Typography variant="h5" sx={{color: "#b07d66", fontWeight: "bold"  }} gutterBottom>
             {user.firstName ? `${user.firstName} ${user.lastName}` : "User Details"}
           </Typography>
 

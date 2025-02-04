@@ -54,7 +54,8 @@ const AddRecipe = () => {
   };
   return (
     <Card sx={{ maxWidth: 500, mx: "auto", mt: 8, p: 2, boxShadow: 3, ...backgroundStyle}}>
-      <CardContent sx={{ maxHeight: "60vh", overflowY: "auto" }}>
+      <CardContent sx={{ maxHeight: "60vh", overflowY: "auto","& ul": { padding: 0 },
+        scrollbarWidth: "none",  }}>
         <Typography variant="h5" textAlign="center" gutterBottom>
           Add a New Recipe 🍽️
         </Typography>
