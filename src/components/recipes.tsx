@@ -15,7 +15,7 @@ const Recipes=()=>{
                 paddingTop: "64px", 
             }}
         >
-            <Grid2 container spacing={2} sx={{ width: "80%", height: "80vh" }}>
+            <Grid2 container spacing={2} sx={{ width: "80%", height: "80vh" ,display: "flex", alignItems: "center", justifyContent: "center"}} >
             <Grid2 size={6}  >
             <Outlet />
                 </Grid2>

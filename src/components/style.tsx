@@ -41,8 +41,9 @@ export const navStyle:CSSProperties = {
 
  export   const linkStyle = {
         textDecoration: "none",
-        color: "#c99a8f", 
-        fontWeight: "bold",
+        color: "#b07d66",
+        fontWeight: "bold" ,
+        fontSize: "25px",
         borderBottom: "2px solid transparent", 
         padding: "5px",
         transition: "0.3s",
